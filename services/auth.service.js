@@ -1,6 +1,8 @@
-import { axiosAuthInstance } from '../axiosConfig'
+import AxiosConfig from '../axiosConfig'
 
-export const login = async (loginRequestBody) => await axiosAuthInstance.post("/login", loginRequestBody);
-export const register = async (regRequestBody) => await axiosAuthInstance.post("/register", regRequestBody);
-export const logout = async () => await axiosAuthInstance.post("/logout");
-export const getCurrentUser = async () => await axiosAuthInstance.get("/me");
+export const login = async (loginRequestBody) => await AxiosConfig.axiosAuthInstance.post('/login', loginRequestBody);
+export const register = async (regRequestBody) => await AxiosConfig.axiosAuthInstance.post('/sign-up', regRequestBody);
+export const logout = async () => {
+    const result = await AxiosConfig.axiosAuthInstance.post('/logout');
+    return result;
+}

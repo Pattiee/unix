@@ -30,8 +30,8 @@ const Register = () => {
   }, []);
 
   const submit = async () => {
-    if (!form.firstName || !form.email || !form.password) return Alert.alert("Error", "Please fill in all the fields");
-    if (form.email.includes('`') || form.password.includes('`') || form.firstName.includes('`')) return Alert.alert("Error", "Invalid input");
+    if (!form.firstName || !form.email || !form.password) return Alert.alert("Alert", "Please fill in all the fields");
+    if (form.email.includes('`') || form.password.includes('`') || form.firstName.includes('`')) return Alert.alert("Alert", "Invalid input");
 
     setIsSubmitting(true);
 
@@ -42,7 +42,7 @@ const Register = () => {
       setIsLoggedIn(true);
 
       // router.replace("/app/home");
-      router.replace("/home");
+      router.replace("/login");
 
       // TODO: should route to login
       // router.replace("/sign-in");
@@ -71,8 +71,8 @@ const Register = () => {
 
             <FormFiled
               title='First name'
-              value={form.username}
-              handleChangeText={(val) => setForm({ ...form, username: val })}
+              value={form.firstName}
+              handleChangeText={(val) => setForm({ ...form, firstName: val })}
               otherStyles="mt-7"
               // placeholder={"First name"}
               mxLength={50}
@@ -107,7 +107,7 @@ const Register = () => {
             />
 
             <CustomButton
-              title={"Sign up"}
+              title={isSubmitting ? 'Please wait...' : "Sign up"}
               handlePress={submit}
               containerStyles="mt-7 w-full"
               isLoading={isSubmitting}
@@ -118,7 +118,7 @@ const Register = () => {
                 Already have an account?
               </Text>
 
-              <Link href="/login" className='text-lg font-psemibold text-primary'>Sign in</Link>
+              <Link disabled={isSubmitting} href="/login" className='text-lg font-psemibold text-primary'>Sign in</Link>
 
             </View>
 

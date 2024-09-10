@@ -1,8 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect } from 'react'
 import { SplashScreen, Stack } from 'expo-router'
 import { useFonts } from 'expo-font';
 import AuthProvider from '../contexts/AuthProvider'
+import { Ionicons } from '@expo/vector-icons';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -33,6 +34,37 @@ const RootLayout = () => {
     <AuthProvider>
       <Stack>
         <Stack.Screen name='index' options={{ headerShown: false }}/>
+        <Stack.Screen name='pollDetails' options={{ headerShown: false }}/>
+        <Stack.Screen name='UserPosts' options={{ headerShown: false }}/>
+        <Stack.Screen name='Contacts' options={({ route }) => ({
+          title: route.params.name,
+        })}/>
+        <Stack.Screen name='CreatePost' options={{ headerShown: false }}/>
+        <Stack.Screen name='(chatting)/ChatScreen' options={({ route }) => ({
+          title: route.params.name,
+          headerBackVisible: false,
+          headerLargeTitle: true,
+          headerRight: () => (
+            <View className="flex flex-row w-1/2 p-0 m-0 h-full justify-around">
+              <TouchableOpacity onPress={() => Alert.alert("Alert", "Block?")}>
+                <Ionicons name='notifications-off-outline' color={'white'} size={25}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => Alert.alert("Alert", "Info displaying")}>
+                <Ionicons name='information-circle-outline' color={'white'} size={25}/>
+              </TouchableOpacity>
+            </View>
+          ),
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+            fontSize: 24
+          }
+        })}/>
+        <Stack.Screen name='CreatePoll' options={{ headerShown: false }}/>
+        <Stack.Screen name='poll-positions' options={{ headerShown: false }}/>
         <Stack.Screen name='(auth)' options={{ headerShown: false }}/>
         <Stack.Screen name='(tabs)' options={{ headerShown: false }}/>
         <Stack.Screen name='search/[query]' options={{ headerShown: false }}/>

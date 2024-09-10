@@ -5,5 +5,9 @@
         "*.html": "django-html",
         "plyconfig.json": "jsonc"
     },
-    "iis.configDir": ""
+    "iis.configDir": "",
+    "cSpell.words": [
+        "Ionicons",
+        "MMKV"
+    ]
 }

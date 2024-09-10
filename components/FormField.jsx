@@ -1,10 +1,9 @@
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import icons from "../constants/icons";
-import CustomButton from "../components/CustomButton";
+import { Ionicons } from '@expo/vector-icons';
 
 
-const FormField = ({ title, value, inputMod, mxLength, keyboard_type, placeholder, handleChangeText, otherStyles, keyboardType, ...props }) => {
+const FormField = ({ title, value, auto_capitalize, inputMod, mxLength, keyboard_type, placeholder, handleChangeText, otherStyles, keyboardType, ...props }) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -19,7 +18,7 @@ const FormField = ({ title, value, inputMod, mxLength, keyboard_type, placeholde
       <Text className="text-base text-gray font-pmedium">{title}</Text>
       <View className="border-2 w-full h-16 px-4 rounded-2xl flex-row focus:border-primary items-center">
           <TextInput
-            className="flex-1 font-psemibold text-base"
+            className="flex-1 text-lg font-pregular"
             value={value}
             placeholder={placeholder}
             placeholderTextColor="#7b7b8b"
@@ -31,11 +30,7 @@ const FormField = ({ title, value, inputMod, mxLength, keyboard_type, placeholde
           {
             title === 'Password' && (
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Image
-                  source={!showPassword ? icons.eye : icons.eyeHide}
-                  className="w-6 h-6"
-                  resizeMode='contain'
-                />
+                <Ionicons name={!showPassword ? 'eye-outline' : 'eye-off-outline'} size={24}/>
               </TouchableOpacity>
             )
           }

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, RefreshControl, Dimensions, Image } from 'react-native'
+import { View, Text, FlatList, RefreshControl, Dimensions, Image } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import useServer from '../../hooks/useServer'
 import PostService from '../../services/posts.service'
@@ -9,6 +9,7 @@ import { images } from '../../constants/images'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending';
 import EmptyState from '../../components/EmptyState';
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 
@@ -22,7 +23,7 @@ const Home = () => {
 
   const[playingIndex, setPlayingIndex] = useState(null);
   const flatListRef = React.useRef(null);
-  const screenHeight = Dimensions.get('window').height;
+  // const screenHeight = Dimensions.get('window').height;
 
   const videoRefs = useRef([]);
 
@@ -101,19 +102,19 @@ const Home = () => {
         snapToAlignment='start'
         showsVerticalScrollIndicator={false}
         decelerationRate="fast"
-        data={posts ?? staticPosts}
+        data={posts ?? []}
         keyExtractor={(item, index) => index.toString()}
         pagingEnabled
         renderItem={({ item, index }) => (
           <VideoCard videoRefs={videoRefs} video={item} index={index}/>
         )}
         ListHeaderComponent={() => (
-          <View className="my-6 px-4 space-y-6 border border-red-600">
+          <View className="my-6 px-4 space-y-6">
             <View className="justify-between items-start flex-row mb-6">
 
               <View className="">
                 <Text className="text-sm text-gray-100 font-pmedium">Welcome back, </Text>
-                <Text className="text-2xl font-psemibold text-white">{user?.username}</Text>
+                <Text className="text-2xl font-psemibold text-white">{user?.firstName}</Text>
               </View>
 
               <View className="mt-1.5">
@@ -125,7 +126,7 @@ const Home = () => {
               </View>
             </View>
 
-            <SearchInput placeholder={"Search for a video topic"}/>
+            <SearchInput placeholder={"Search for a post"}/>
 
             {/* Latest videos section */}
             <View className="w-full flex-1 pt-5 pb-8">
@@ -136,8 +137,8 @@ const Home = () => {
         )}
         ListEmptyComponent={() => (
           <EmptyState
-            title="No videos found"
-            subTitle="Be the first to upload a video"/>
+            title="No content"
+            subTitle="Be the first to create a post"/>
         )}
         onViewableItemsChanged={handleViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}

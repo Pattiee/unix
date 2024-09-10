@@ -7,6 +7,9 @@ import EmptyState from '../../components/EmptyState';
 // import useAppwrite from '../../lib/useAppwrite';
 // import VideoCard from '../../components/VideoCard';
 import { useLocalSearchParams } from 'expo-router';
+import useServer from '../../hooks/useServer'
+import PostService from '../../services/posts.service'
+import SearchInput from '../../components/SearchInput'
 
 
 
@@ -14,14 +17,14 @@ const Search = () => {
 
   const { query } = useLocalSearchParams();
 
-  const { data: posts, refetch } = useAppwrite(() => searchPost(query));
+  const { data: posts, refetch } = useServer(() => PostService.searchPostByTitle(query));
 
   useEffect(() => {
     refetch();
   }, [query]);
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="h-full">
       <FlatList
         data={posts ?? []}
         keyExtractor={(item) => item?.$id}
@@ -36,8 +39,7 @@ const Search = () => {
             </Text>
 
             <View className="mt-6 mb-8">
-              <Text>Search query here... </Text>
-              {/* <SearchInput initialQuery={query}/> */}
+              <SearchInput initialQuery={query}/>
             </View>
           </View>
         )}

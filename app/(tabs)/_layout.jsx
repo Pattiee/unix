@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
-import { Tabs } from 'expo-router'
+import { Tabs, Redirect } from 'expo-router'
 import icons from '../../constants/icons'
 
 
@@ -27,17 +27,16 @@ const TabsLayout = () => {
         <Tabs
           screenOptions={{
             tabBarShowLabel: false,
-            tabBarActiveTintColor: "#d50e0e",
-            tabBarInactiveTintColor: "#CDCDE0",
+            tabBarActiveTintColor: "#333",
+            tabBarInactiveTintColor: "#999",
             headerShown: false,
             tabBarStyle: {
               backgroundColor: '',
               borderTopWidth: 1,
               // borderTopColor: "#d50e0e",
-              height: 60,
+              height: 70,
             },
-          }}
-        >
+          }}>
 
             <Tabs.Screen
                 name='home'
@@ -46,18 +45,6 @@ const TabsLayout = () => {
                     headerShown: false,
                     tabBarIcon: ({ color, focused }) => (
                         <TabIcon icon={icons.home} color={color} name={"Home"} focused={focused}/>
-                    )
-                }}
-            />
-
-
-            <Tabs.Screen
-                name='explore'
-                options={{
-                    title: "Explore",
-                    headerShown: false,
-                    tabBarIcon: ({ color, focused }) => (
-                        <TabIcon icon={icons.bookmark} color={color} name={"Explore"} focused={focused}/>
                     )
                 }}
             />
@@ -73,17 +60,17 @@ const TabsLayout = () => {
                 }}
             />
 
-
             <Tabs.Screen
-                name='notifications'
+                name='polls'
                 options={{
-                    title: "Notifications",
+                    title: "Polls",
                     headerShown: false,
                     tabBarIcon: ({ color, focused }) => (
-                        <TabIcon icon={icons.eye} color={color} name={"Notifications"} focused={focused}/>
+                        <TabIcon icon={icons.bookmark} color={color} name={"Polls"} focused={focused}/>
                     )
                 }}
             />
+
 
             <Tabs.Screen
                 name='profile'
