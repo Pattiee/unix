@@ -1,11 +1,10 @@
-import { View, Text } from 'react-native'
+import { View, Text, Alert } from 'react-native'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { router } from 'expo-router';
 import SecureStoreService from '../services/secureStore';
 import { getCurrentUser } from '../services/user.service';
+import { updateCurrentAccount, getCurrentAccount } from '../db'
 
-
-// SecureStore.AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY
 
 const AuthContext = createContext();
 
@@ -18,31 +17,52 @@ const AuthProvider = ({ children }) => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ msgUpdated, setMsgUpdated ] = useState(false);
     const [ justUploaded, setJustUploaded ] = useState(false);
+    const [ contactsUpdated, setContactsUpdated ] = useState(false);
+
+
+    const localAccountUpdate = async () => {
+        getCurrentAccount().then((result) => {
+            console.error("LOCAL | ", result);
+            if (result) {
+                const usr = {
+                    id: result.id,
+                    firstName: result.fname,
+                    phone: result.phone,
+                };
+                setUser(usr);
+                setIsLoggedIn(true);
+            } else {
+                setUser(null);
+                setIsLoggedIn(false);
+            }
+        }).catch((er) => {
+
+        }).finally(() => {
+            setIsLoading(false);
+        });
+    }
 
 
 
     useEffect(() => {
-        getCurrentUser()
-        .then((res) => {
+        getCurrentUser().then((res) => {
             if (res) {
+                console.error("SERVER RES | ", res);
                 setIsLoggedIn(true);
-                setUser(res.data);
-            } else{
-                setIsLoggedIn(false);
-                setUser(null);
+                setUser(res);
+                updateCurrentAccount(res);
             }
-        })
-        .catch((err) => {
-            setIsLoggedIn(false);
-            setUser(null);
-        })
-        .finally(() => {
-            setIsLoading(false);
+        }).catch((err) => {
+        }).finally(async () => {
+            if (!user) {
+                localAccountUpdate();
+            }
         });
     }, []);
 
+
     return (
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser, isLoading, msgUpdated, setMsgUpdated }}>
+        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser, isLoading, msgUpdated, setMsgUpdated, contactsUpdated, setContactsUpdated }}>
             {children}
         </AuthContext.Provider>
     )

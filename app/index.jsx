@@ -21,7 +21,7 @@ export default function App(){
 
 
     return(
-        <SafeAreaView className="h-full">
+        <SafeAreaView className="h-full bg-white dark:bg-slate-800 rounded-lg ring-1 ring-slate-900/5 shadow-xl">
             <ScrollView contentContainerStyle={{ height: '100%' }}>
                 <View className="w-full justify-center items-center min-h-[85vh] px-4">
 
@@ -37,8 +37,7 @@ export default function App(){
                 /> */}
 
                 <View className="relative mt-5">
-                  <Text className="text-3xl text-black-100
-                  font-bold text-center">
+                  <Text className="text-3xl text-slate-900 dark:text-white tracking-tight font-bold text-center">
                     Discover endless possibilities with {' '}
                     <Text className="text-primary">Unix</Text>
                   </Text>
@@ -49,6 +48,13 @@ export default function App(){
                   embark on a journey with limitless exploration
                   with us
                 </Text>
+
+                <CustomButton
+                  title="Continue with phone"
+                  handlePress={() => (router.push("/(auth)/phone-login"))}
+                  containerStyles="w-full mt-7"
+                />
+
 
                 <CustomButton
                   title="Continue with email"

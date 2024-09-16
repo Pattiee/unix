@@ -1,6 +1,6 @@
 import { View, Text, FlatList } from 'react-native'
 import React from 'react'
-import PollHeader from './PollHeader'
+import PollHeader from '../PollHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 

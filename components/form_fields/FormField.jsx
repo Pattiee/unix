@@ -15,22 +15,23 @@ const FormField = ({ title, value, auto_capitalize, inputMod, mxLength, keyboard
 
   return (
     <View className={`space-y-2 ${otherStyles}`}>
-      <Text className="text-base text-gray font-pmedium">{title}</Text>
+      <Text className="text-base text-slate-800 dark:text-white font-pmedium">{title}</Text>
       <View className="border-2 w-full h-16 px-4 rounded-2xl flex-row focus:border-primary items-center">
           <TextInput
-            className="flex-1 text-lg font-pregular"
+            className="flex-1 text-slate-800 dark:text-white text-lg font-pregular"
             value={value}
             placeholder={placeholder}
             placeholderTextColor="#7b7b8b"
             onChangeText={handleChangeText}
             secureTextEntry={title === 'Password' && !showPassword && showPassword == false}
             maxLength={mxLength}
+            keyboardType={keyboard_type}
           />
 
           {
             title === 'Password' && (
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Ionicons name={!showPassword ? 'eye-outline' : 'eye-off-outline'} size={24}/>
+                <Ionicons name={!showPassword ? 'eye-outline' : 'eye-off-outline'} size={24} color={'red'}/>
               </TouchableOpacity>
             )
           }

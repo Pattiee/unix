@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image, Alert, ActivityIndicator } from 'react-n
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from "../../constants/images";
-import FormFiled from '../../components/FormField';
+import FormFiled from '../../components/form_fields/FormField';
 import CustomButton from '../../components/CustomButton';
 import { Link, router } from 'expo-router';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -21,6 +21,12 @@ const Login = () => {
     email: '',
     password: '',
   });
+
+
+  const goToRegister = () => {
+    setForm({ ...form, email: '', password: ''});
+    return router.push('(auth)/register');
+  }
 
 
   useEffect(() => {
@@ -53,7 +59,7 @@ const Login = () => {
 
 
   return (
-    <SafeAreaView className="h-full">
+    <SafeAreaView className="h-full bg-white dark:bg-slate-800 rounded-lg ring-1 ring-slate-900/5 shadow-xl">
       <ScrollView>
         <View className="flex items-center w-full min-h-[83vh] justify-center px-4 my-6">
 
@@ -63,8 +69,7 @@ const Login = () => {
               className="w-[130px] h-[130px] rounded-full m-0 p-2"
             />
 
-            <Text className="text-3xl text-black-100
-             font-bold text-center mt-10">Login</Text>
+            <Text className="text-3xl text-slate-800 dark:text-white font-bold text-center mt-10">Login</Text>
 
             <FormFiled
               title='Email'
@@ -92,11 +97,11 @@ const Login = () => {
                   isLoading={isSubmitting}/>
 
             <View className="justify-center pt-5 flex-row gap-2">
-              <Text className="text-lg text-gray-500 font-pregular">
+              <Text className="text-lg text-slate-500 font-pregular">
                 Don't have an account?
               </Text>
 
-              <Link disabled={isSubmitting} href="/register" className='text-lg font-psemibold text-primary disabled:text-gray-600'>Sign up</Link>
+              <Text disabled={isSubmitting} onPress={() => goToRegister()} className='text-lg font-psemibold text-slate-500 dark:text-white'>Sign up</Text>
 
             </View>
 

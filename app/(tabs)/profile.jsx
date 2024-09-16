@@ -1,4 +1,4 @@
-import { View, Text, FlatList, ScrollView, TouchableOpacity, Button, Alert } from 'react-native'
+import { View, Text, FlatList, ScrollView, TouchableOpacity, Button, Alert, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../contexts/AuthProvider'
 import { images } from '../../constants/images'
@@ -13,6 +13,12 @@ import * as SecureStore from 'expo-secure-store'
 import useServer from '../../hooks/useServer'
 import useSingleDataServer from '../../hooks/useSingleDataServer'
 import { getUserProfile } from '../../services/user.service'
+import { styled, useColorScheme } from 'nativewind'
+import { logoutLocal } from '../../db'
+
+
+const StyledPressable = styled(Pressable);
+const StyledText = styled(Text);
 
 
 const Profile = () => {
@@ -20,6 +26,8 @@ const Profile = () => {
   const { isLoggedIn, setIsLoggedIn, user, setUser, isLoading, } = useAuth();
   const [profile, setProfile] = useState(null);
   const [message, setMessage] = useState('');
+
+  const { colorScheme, toggleColorScheme } = useColorScheme();
 
   useEffect(() => {
     if(isLoggedIn && user != null){
@@ -46,15 +54,16 @@ const Profile = () => {
 
   const logoutUser = async () => {
     await logout().then((res) => {
-        setUser(null);
-        setIsLoggedIn(false);
-        setMessage(res.data);
-        router.replace('/login');
-        Alert.alert("Message", res.data);
+      setUser(null);
+      setIsLoggedIn(false);
+      setMessage(res.data);
+      logoutLocal();
+      router.replace('/login');
+      Alert.alert("Message", res.data);
     }).catch((err) => {
       Alert.alert("Message", err?.message);
     }).finally(() => {
-      if (!user || !isLoggedIn) {
+      if (!user && !isLoggedIn) {
         router.replace('/login');
       }
     });
@@ -62,12 +71,19 @@ const Profile = () => {
 
 
   return (
-    <SafeAreaView className="h-full w-full">
+    <SafeAreaView className="h-full w-full bg-white dark:bg-slate-600 ring-1 ring-slate-900/5">
       <ScrollView>
 
         {/* User info */}
         <View className="w-full h-[55vh] rounded-t-lg pt-4">
-          <View className="h-[10%] flex w-full items-end">
+          <View className="h-[10%] flex flex-row w-full justify-between">
+            {/* Logout */}
+            <StyledPressable className="flex w-9 h-9 rounded-full mr-4 justify-center items-center" onPress={toggleColorScheme}>
+              <StyledText>
+                {colorScheme === 'dark' ? (<Ionicons className="mx-1" size={32} color={'red'} name='sunny-outline'/>) : (<Ionicons className="mx-1" size={32} color={'red'} name='moon-outline'/>)}
+              </StyledText>
+            </StyledPressable>
+
             {/* Logout */}
             <TouchableOpacity className="flex w-9 h-9 rounded-full mr-4 justify-center items-center" onPress={logoutUser}>
               <Ionicons className="mx-1" size={32} color={'red'} name='log-out-outline'/>
@@ -79,7 +95,7 @@ const Profile = () => {
               <TouchableOpacity className="w-20 h-20 rounded-full justify-center items-center">
                   <Image source={images?.logo2} className="w-full h-full center rounded-full"/>
               </TouchableOpacity>
-              <Text className="capitalize text-3xl py-2 px-4">{profile?.name}</Text>
+              <Text className="capitalize text-3xl py-2 px-4 text-slate-800 dark:text-white">{profile?.name}</Text>
             </View>
 
             {/* Any other info */}
@@ -96,24 +112,24 @@ const Profile = () => {
               {/* End of test btn */}
               <View className="flex flex-col h-[70%] justify-center items-center">
                 <View className="flex px-4 rounded-lg flex-row items-center justify-center">
-                  <Ionicons className="mx-1" size={18} name='call-outline'/>
-                  <Text className="py-2 mx-2 text-lg">{profile?.phone}</Text>
+                  <Ionicons className="mx-1" size={18} name='call-outline' color={'red'}/>
+                  <Text className="py-2 mx-2 text-lg text-slate-500 dark:text-slate-100">{profile?.phone}</Text>
                 </View>
 
                 <View className="flex px-4 rounded-lg flex-row items-center justify-center">
-                  <Ionicons className="mx-1" size={18} name='mail-outline'/>
-                  <Text className="py-2 mx-2 text-lg">{profile?.email}</Text>
+                  <Ionicons className="mx-1" size={18} name='mail-outline' color={'red'}/>
+                  <Text className="py-2 mx-2 text-lg text-slate-500 dark:text-slate-100">{profile?.email}</Text>
                 </View>
               </View>
 
-              <View className="flex flex-row justify-around items-center h-[30%] bg-red-50 rounded-lg ml-2">
+              <View className="flex flex-row justify-around items-center h-[30%] bg-white dark:bg-slate-500 rounded-lg ml-2">
                 <View className="flex flex-row justify-center items-center h-full w-1/2">
                   <Image className="h-[20px] w-[20px] m-1" source={icons.eye}/>
-                  <Text className="text-xl">Followers {user?.followers ?? 0}</Text>
+                  <Text className="text-xl text-slate-800 dark:text-slate-100">Followers {user?.followers ?? 0}</Text>
                 </View>
                 <View className="flex flex-row justify-center items-center h-full w-1/2">
                   <Image className="h-[20px] w-[20px] m-1" source={icons.eye}/>
-                  <Text className="text-xl">Following {user?.following ?? 0}</Text>
+                  <Text className="text-xl text-slate-800 dark:text-slate-100">Following {user?.following ?? 0}</Text>
                 </View>
               </View>
             </View>
@@ -126,7 +142,7 @@ const Profile = () => {
           {/* Posts */}
           <View className="h-[40vh] mb-10 w-full p-0">
             <TouchableOpacity className="h-3/4 w-full" onPress={() => router.push({ pathname: 'UserPosts', params: { userId: JSON.stringify(user?.id) }})}>
-              <View className="flex flex-row opacity-80 bg-primary absolute z-50 h-full justify-center items-center p-0 m-0">
+              <View className="flex flex-row opacity-40 bg-slate-900 absolute z-50 h-full justify-center items-center p-0 m-0">
                 <View className="flex h-full w-1/2 justify-center items-center">
                   <Text className="flex text-2xl pt-5 px-4 text-white">98</Text>
                   <Text className="flex text-3xl py-2 px-4 text-white font-pextralight">Posts</Text>
@@ -141,15 +157,15 @@ const Profile = () => {
                 </View>
               </View>
 
-              {/* Post Video */}
               <View className="w-full">
                 <Image className="h-full w-full" source={images.bg3}/>
               </View>
             </TouchableOpacity>
 
+              {/* New Post */}
             <View className="flex h-1/4 w-full justify-center items-center">
-              <TouchableOpacity className="flex w-full h-full justify-center items-center" onPress={() => router.push({ pathname: 'CreatePost', params: { userId: JSON.stringify(user?.id)}})}>
-                <Text className="text-5xl bg-primary px-4 py-2 rounded-xl text-white">New Post</Text>
+              <TouchableOpacity className="flex bg-slate-900 w-full h-full justify-center items-center" onPress={() => router.push({ pathname: 'CreatePost', params: { userId: JSON.stringify(user?.id)}})}>
+                <Text className="text-5xl px-4 py-2 rounded-xl text-slate-800 dark:text-white">New Post</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -157,7 +173,7 @@ const Profile = () => {
           {/* Polls */}
           <View className="h-[40vh] mb-10 w-full p-0">
             <TouchableOpacity className="h-3/4 w-full" onPress={() => router.push({ pathname: 'UserPolls', params: { userId: JSON.stringify(user.id) } })}>
-              <View className="flex z-50 absolute opacity-80 flex-row bg-primary h-full justify-center items-center p-0 m-0">
+              <View className="flex z-50 absolute opacity-40 flex-row bg-slate-900 h-full justify-center items-center p-0 m-0">
                 <View className="flex h-full w-1/2 justify-center items-center">
                   <Text className="flex text-2xl pt-5 px-4 text-white">9</Text>
                   <Text className="flex text-3xl py-2 px-4 text-white font-pextralight">Polls</Text>
@@ -175,8 +191,8 @@ const Profile = () => {
             </TouchableOpacity>
 
             <View className="flex h-1/4 w-full justify-center items-center">
-              <TouchableOpacity className="flex w-full h-full justify-center items-center" onPress={() => router.push({ pathname: 'create-poll', params: { userId: JSON.stringify(user.id) } })}>
-                <Text className="text-5xl bg-primary px-4 py-2 rounded-xl text-white">New Poll</Text>
+              <TouchableOpacity className="flex bg-slate-900 w-full h-full justify-center items-center" onPress={() => router.push({ pathname: 'create-poll', params: { userId: JSON.stringify(user.id) } })}>
+                <Text className="text-5xl px-4 py-2 rounded-xl text-slate-800 dark:text-white">New Poll</Text>
               </TouchableOpacity>
             </View>
           </View>

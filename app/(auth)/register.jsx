@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from "../../constants/images";
-import FormFiled from '../../components/FormField';
+import FormFiled from '../../components/form_fields/FormField';
 import CustomButton from '../../components/CustomButton';
 import { Link, router } from 'expo-router';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -70,7 +70,7 @@ const Register = () => {
 
 
             <FormFiled
-              title='First name'
+              title='Mobile number'
               value={form.firstName}
               handleChangeText={(val) => setForm({ ...form, firstName: val })}
               otherStyles="mt-7"
@@ -114,11 +114,11 @@ const Register = () => {
             />
 
             <View className="justify-center pt-5 flex-row gap-2">
-              <Text className="text-lg text-gray-500 font-pregular">
+              <Text className="text-lg text-slate-500 font-pregular">
                 Already have an account?
               </Text>
 
-              <Link disabled={isSubmitting} href="/login" className='text-lg font-psemibold text-primary'>Sign in</Link>
+              <Link disabled={isSubmitting} href="/login" className='text-lg font-psemibold text-slate-500 dark:text-white'>Sign in</Link>
 
             </View>
 

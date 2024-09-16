@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { useLocalSearchParams } from 'expo-router'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const UserPosts = () => {
     const { userId } = useLocalSearchParams();
@@ -8,9 +9,9 @@ const UserPosts = () => {
 
 
     return (
-        <View>
-        <Text>Displaying posts for user, userId: {uid}</Text>
-        </View>
+        <SafeAreaView>
+            <Text>Displaying posts for user, userId: {uid}</Text>
+        </SafeAreaView>
     )
 }
 

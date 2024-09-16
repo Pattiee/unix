@@ -18,9 +18,9 @@ const SearchInput = ({ initialQuery, placeholder }) => {
 
 
   return (
-      <View className="border-2 border-black-200 w-full h-16 px-4 bg-black-100 rounded-2xl flex-row focus:border-secondary items-center space-x-4">
+      <View className="border-2 bg-slate-100 border-black-200 w-full h-16 px-4 rounded-2xl flex-row focus:border-secondary items-center space-x-4">
           <TextInput
-            className="text-base mt-0.5 text-white flex-1 font-pregular"
+            className="text-base mt-0.5 text-slate-700 flex-1 font-pregular"
             value={query}
             placeholder={placeholder}
             placeholderTextColor="#CDCDE0"

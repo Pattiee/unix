@@ -13,11 +13,11 @@ const EmptyState = ({ title, subTitle, itemName }) => {
 
 
   return (
-    <View className="justify-center items-center px-4 bg-green-600">
+    <View className=" bg-slate-300 dark:bg-black-100 justify-center items-center px-4">
       <Ionicons name='eye-off-outline' size={60} color={'white'}/>
-      <Text className="text-xl text-center font-psemibold text-white mt-2">{title}</Text>
-      <Text className="text-sm text-gray-100 font-pmedium">{subTitle}</Text>
-      <CustomButton title={itemName ?? "Create one"} handlePress={() => router.push({ pathname: 'CreatePost', params: { userId: JSON.stringify(user.id) } })} containerStyles="w-full my-5"/>
+      <Text className="text-xl text-center font-psemibold dark:text-white mt-2">{title}</Text>
+      <Text className="text-sm text-gray-100 dark:text-slate-300 font-pmedium">{subTitle}</Text>
+      <CustomButton title={itemName ?? "Create one"} handlePress={() => router.push({ pathname: '(posts)/CreatePost', params: { userId: JSON.stringify(user.id) } })} containerStyles="w-full my-5"/>
     </View>
   )
 }

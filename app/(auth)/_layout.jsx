@@ -16,14 +16,29 @@ const AuthLayout = () => {
         />
 
         <Stack.Screen
+          name='phone-login'
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
           name='register'
+          options={{
+            headerShown: false,
+          }}
+        />
+
+
+        <Stack.Screen
+          name='verify'
           options={{
             headerShown: false,
           }}
         />
       </Stack>
 
-      <StatusBar backgroundColor='#161616' style='light'/>
+      <StatusBar animated backgroundColor='#161616' style='light'/>
     </>
   )
 }

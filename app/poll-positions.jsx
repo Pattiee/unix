@@ -1,7 +1,7 @@
 import { View, Text, FlatList, TouchableOpacity, Button } from 'react-native'
 import React, { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
-import PollCandidateCard from '../components/PollCandidateCard'
+import PollCandidateCard from '../components/cards/PollCandidateCard'
 import { Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

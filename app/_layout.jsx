@@ -1,9 +1,11 @@
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SplashScreen, Stack } from 'expo-router'
 import { useFonts } from 'expo-font';
 import AuthProvider from '../contexts/AuthProvider'
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import ContactsUtil from '../utils/ContactsUtil';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -21,6 +23,7 @@ const RootLayout = () => {
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
 
+  const [syncingContacts, setSyncingContacts] = useState(false);
 
   useEffect(() => {
     if (error) throw error;
@@ -30,16 +33,40 @@ const RootLayout = () => {
   if(!fontsLoaded && !error) return null;
 
 
+
+  const handleSynchronizeContacts = async () => {
+    setSyncingContacts(true);
+    await ContactsUtil.synchronizeContacts();
+    setSyncingContacts(false);
+  }
+
+
   return (
     <AuthProvider>
       <Stack>
         <Stack.Screen name='index' options={{ headerShown: false }}/>
         <Stack.Screen name='pollDetails' options={{ headerShown: false }}/>
-        <Stack.Screen name='UserPosts' options={{ headerShown: false }}/>
-        <Stack.Screen name='Contacts' options={({ route }) => ({
-          title: route.params.name,
+        <Stack.Screen name='(posts)/UserPosts' options={{ headerShown: false }}/>
+        <Stack.Screen name='(chatting)/ContactDetails' options={({ route }) => ({
+          title: route?.params?.name,
+          headerBackVisible: false,
         })}/>
-        <Stack.Screen name='CreatePost' options={{ headerShown: false }}/>
+        <Stack.Screen name='(chatting)/Contacts' options={({ route }) => ({
+          headerShown: true,
+          title: "Contacts",
+          headerBackVisible: false,
+          headerTransparent: true,
+          headerTitle: 'Contacts',
+          headerRight: () => (
+            <TouchableOpacity className="px-4" onPress={() => handleSynchronizeContacts()} disabled={syncingContacts}>
+              <Ionicons name='sync-outline' size={24} color={'gray'}/>
+            </TouchableOpacity>
+          ),
+          headerTitleStyle: {
+            fontSize: 26,
+          }
+        })}/>
+        <Stack.Screen name='(posts)/CreatePost' options={{ headerShown: false }}/>
         <Stack.Screen name='(chatting)/ChatScreen' options={({ route }) => ({
           title: route.params.name,
           headerBackVisible: false,
@@ -63,12 +90,13 @@ const RootLayout = () => {
             fontSize: 24
           }
         })}/>
-        <Stack.Screen name='CreatePoll' options={{ headerShown: false }}/>
+        <Stack.Screen name='(polls)/create-poll' options={{ headerShown: false }}/>
         <Stack.Screen name='poll-positions' options={{ headerShown: false }}/>
         <Stack.Screen name='(auth)' options={{ headerShown: false }}/>
         <Stack.Screen name='(tabs)' options={{ headerShown: false }}/>
         <Stack.Screen name='search/[query]' options={{ headerShown: false }}/>
       </Stack>
+      <StatusBar backgroundColor='#161616' style='auto'/>
     </AuthProvider>
   )
 }

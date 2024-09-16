@@ -2,7 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image, FlatList, Alert } from
 import React, { useCallback, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuth } from '../../contexts/AuthProvider'
-import ChatCard from '../../components/ChatCard'
+import ChatCard from '../../components/cards/ChatCard'
 import ChatFlatListHeader from '../../components/ChatFlatListHeader'
 import ChatService from '../../services/chat.service'
 import useServer from '../../hooks/useServer'
@@ -33,7 +33,7 @@ const Chats = () => {
 
   const listFooterComponent = () => {
     return(
-      <View className="h-[50vh] bg-black">
+      <View className="h-[50vh] bg-white dark:bg-slate-600 rounded-b-xl ring-1 ring-slate-900/5">
         {/* <TouchableOpacity className="flex flex-row rounded-lg bg-primary w-1/3 justify-center items-center">
           <Ionicons name='add-circle-outline' size={37} color={'white'}/>
           <Text className="text-white px-2 py-1 text-2xl">Chat</Text>
@@ -44,11 +44,11 @@ const Chats = () => {
 
 
   return (
-    <SafeAreaView className="h-full w-full">
+    <SafeAreaView className="h-full w-full bg-white dark:bg-slate-600 rounded-lg ring-1 ring-slate-900/5 shadow-xl">
 
-      <TouchableOpacity className="flex py-2 absolute z-50 bottom-10 right-5 flex-row rounded-lg bg-primary w-1/3 justify-center items-center" onPress={() => router.push({ pathname: 'Contacts', })}>
+      <TouchableOpacity className="flex bg-slate-800 dark:bg-slate-900 py-2 absolute z-50 bottom-10 right-5 flex-row rounded-lg w-1/3 justify-center items-center" onPress={() => router.push({ pathname: 'Contacts', })}>
         <Ionicons name='add-circle-outline' size={35} color={'white'}/>
-        <Text className="text-white px-2 py-1 text-2xl">Chat</Text>
+        <Text className=" text-slate-300 px-2 py-1 text-2xl">Chat</Text>
       </TouchableOpacity>
 
       <FlatList

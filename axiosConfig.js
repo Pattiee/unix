@@ -3,11 +3,12 @@ import axios from "axios";
 axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-const AUTH_SERVICE_BASEURL = "http://192.168.25.133:8080/api/auth";
-const POSTS_SERVICE_BASEURL = "http://192.168.25.133:8080/api/posts";
-const CHATS_SERVICE_BASEURL = "http://192.168.25.133:8080/api/chats";
-const MESSAGE_SERVICE_BASEURL = "http://192.168.25.133:8080/api/messages";
-const USER_SERVICE_BASEURL = "http://192.168.25.133:8080/api/users";
+
+const AUTH_SERVICE_BASEURL = "http://192.168.92.133:8080/api/auth";
+const POSTS_SERVICE_BASEURL = "http://192.168.92.133:8080/api/posts";
+const CHATS_SERVICE_BASEURL = "http://192.168.92.133:8080/api/chats";
+const MESSAGE_SERVICE_BASEURL = "http://192.168.92.133:8080/api/messages";
+const USER_SERVICE_BASEURL = "http://192.168.92.133:8080/api/users";
 
 
 const axiosAuthInstance = axios.create({

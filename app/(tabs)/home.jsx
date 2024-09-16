@@ -10,6 +10,7 @@ import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending';
 import EmptyState from '../../components/EmptyState';
 import { SafeAreaView } from 'react-native-safe-area-context'
+import * as Network from 'expo-network'
 
 
 
@@ -19,6 +20,8 @@ const Home = () => {
   const { data: posts, refetch } = useServer(PostService.getAllPosts);
   const { data: latestPosts } = useServer(PostService.getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
+
+
 
 
   const[playingIndex, setPlayingIndex] = useState(null);
@@ -94,7 +97,7 @@ const Home = () => {
 
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="h-full w-full bg-white dark:bg-slate-600 ring-1">
       <FlatList
         scrollEventThrottle={16} // Higher frequency of scroll events makes it smoother
         className="h-full w-full p-0 m-0 border-none"
@@ -109,12 +112,12 @@ const Home = () => {
           <VideoCard videoRefs={videoRefs} video={item} index={index}/>
         )}
         ListHeaderComponent={() => (
-          <View className="my-6 px-4 space-y-6">
+          <View className=" bg-white my-6 px-4 space-y-6">
             <View className="justify-between items-start flex-row mb-6">
 
               <View className="">
-                <Text className="text-sm text-gray-100 font-pmedium">Welcome back, </Text>
-                <Text className="text-2xl font-psemibold text-white">{user?.firstName}</Text>
+                <Text className="text-sm text-slate-300 font-pmedium">Welcome back, </Text>
+                <Text className="text-2xl text-slate-700 font-psemibold ">{user?.firstName}</Text>
               </View>
 
               <View className="mt-1.5">
@@ -130,7 +133,7 @@ const Home = () => {
 
             {/* Latest videos section */}
             <View className="w-full flex-1 pt-5 pb-8">
-              <Text className="text-gray-100 text-lg font-pregular mb-3">Latest Videos</Text>
+              <Text className="text-slate-300 text-lg font-pregular mb-3">Latest Videos</Text>
               <Trending posts={latestPosts ?? []}/>
             </View>
           </View>
